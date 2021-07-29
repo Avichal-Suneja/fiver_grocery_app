@@ -7,7 +7,7 @@ class AuthView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AuthController>();
-    return controller.signIn.value? showSignIn() : showSignUp();
+    return true? showSignIn() : showSignUp();
   }
 }
 
