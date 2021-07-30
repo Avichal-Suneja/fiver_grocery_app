@@ -6,6 +6,7 @@ import 'package:grocery_app/Services/DatabaseService.dart';
 class AuthController extends GetxController{
   final _auth = Get.put(AuthService());
   final _db = Get.put(DatabaseService());
+  RxBool signUpBool = false.obs;
 
   TextEditingController nameController = new TextEditingController();
   TextEditingController phoneController = new TextEditingController();
@@ -27,5 +28,9 @@ class AuthController extends GetxController{
       });
       Get.offAllNamed('/home');
     });
+  }
+
+  void showSignUp(){
+    signUpBool.toggle();
   }
 }
