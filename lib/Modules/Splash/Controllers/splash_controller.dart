@@ -10,9 +10,9 @@ class SplashController extends GetxController{
     });
 
     @override
-    void onReady() async {
+    void onInit() async {
       await checkLoggedInStatus();
-      super.onReady();
+      super.onInit();
     }
   }
 }

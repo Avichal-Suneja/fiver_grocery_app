@@ -6,8 +6,8 @@ import 'package:grocery_app/Services/DatabaseService.dart';
 class SplashBindings extends Bindings{
   @override
   void dependencies() {
-    Get.put(SplashController());
     Get.put(AuthService());
     Get.put(DatabaseService());
+    Get.put(SplashController());
   }
 }
