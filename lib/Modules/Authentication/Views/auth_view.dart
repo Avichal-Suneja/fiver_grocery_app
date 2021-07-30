@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/Modules/Authentication/Controllers/auth_controller.dart';
+
 class AuthView extends StatelessWidget {
   const AuthView({Key? key}) : super(key: key);
 
@@ -12,72 +13,111 @@ class AuthView extends StatelessWidget {
 }
 
 Widget showSignIn(AuthController controller){
-  return Container(
-    width: Get.width,
-    height: Get.height,
+  return Scaffold(
+    // decoration: BoxDecoration(
+    //   image: DecorationImage(
+    //     image: Image.asset('background.jpg')
+    //   )
+    // ),
 
-    /*decoration: BoxDecoration(
-      image: DecorationImage(
-        image: Image.asset('')
-      )
-    ),*/
-
-    child: Column(
+    body:
+    Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'WELCOME',
-          style: TextStyle(
-              fontSize: 24,
-              color: Colors.green
-          ),
-        ),
-        SizedBox(height: 32),
-        Text('email'),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            color: Colors.grey[200],
-            width: Get.width*0.8,
-            child: TextField(
-              controller: controller.emailController,
+        Center(
+          child: Text(
+            'WELCOME',
+            style: TextStyle(
+                fontSize: 48,
+                color: Color(0xff039f00),
+                fontWeight: FontWeight.bold
             ),
           ),
         ),
+        SizedBox(height: 40),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28.0, 0, 0, 0),
+          child: Text('Email', style: TextStyle(
+            color: Color(0xff039f00),
+              fontWeight: FontWeight.bold
+          ),),
+        ),
+        SizedBox(height: 8),
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              color: Color(0xffe5e5e5),
+              width: Get.width*0.9,
+              child: TextField(
+                controller: controller.emailController,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28.0, 0, 0, 0),
+          child: Text('Password',style: TextStyle(
+            color: Color(0xff039f00),
+            fontWeight: FontWeight.bold
+          ),),
+        ),
+        SizedBox(height: 8),
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              color: Color(0xffe5e5e5),
+              width: Get.width*0.9,
+              child: TextField(
+                obscureText: true,
+                controller: controller.passwordController,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 48),
+        Center(
+          child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: SizedBox(
+            height: 46,
+            width: 147,
+            child: ElevatedButton(
+              onPressed: controller.signIn,
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xffe5e5e5),
+                shadowColor: Colors.black12,
+                elevation: 5
+              ),
+              child: Text('Sign In', style: TextStyle(
+                fontSize: 28,
+                color: Color(0xff039f00)
+              ),),
+            ),
+          ),
+          ),
+        ),
+        SizedBox(height: 2),
 
-        Text('password'),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            color: Colors.grey[200],
-            width: Get.width*0.8,
-            child: TextField(
-              obscureText: true,
-              controller: controller.passwordController,
-            ),
-          ),
-        ),
-        SizedBox(height: 32),
-        SizedBox(
-          height: 100,
-          width: 400,
-          child: ElevatedButton(
-            onPressed: controller.signIn,
-            child: Text('Sign In'),
-          ),
-        ),
-        SizedBox(height: 24),
-        TextButton(
-          child: Row(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('New User '),
-              Text('Sign Up', style: TextStyle(
-                color: Colors.green
-              ))
+              Text('New User', style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16
+          )),
+              TextButton(onPressed: controller.showSignUp,
+                child: Text('Sign Up', style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 16,
+                    fontWeight: FontWeight.bold
+                ))
+              ),
             ],
           ),
-          onPressed: controller.showSignUp,
-        )
       ],
     ),
   );
