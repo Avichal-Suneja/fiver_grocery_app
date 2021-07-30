@@ -12,44 +12,30 @@ import 'package:grocery_app/Modules/Splash/Views/splash_view.dart';
 import 'package:grocery_app/Utils/appTheme.dart';
 import 'Modules/Authentication/Views/auth_view.dart';
 
-void main(){
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
   MainApp({Key? key}) : super(key: key);
 
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot){
-        if(snapshot.hasData){
-          print(snapshot.error);
-        }
-
-        if(snapshot.connectionState == ConnectionState.done){
-          return GetMaterialApp(
-            title: 'Grocery App',
-            getPages: [
-              GetPage(name: '/splash', page: ()=> SplashView(), binding: SplashBindings()),
-              GetPage(name: '/auth', page: ()=> AuthView(), binding: AuthBinding()),
-              GetPage(name: '/home', page: ()=> HomeView(), binding: HomeBindings()),
-              GetPage(name: '/cart', page: ()=> HomeView()),
-              GetPage(name: '/orders', page: ()=> HomeView()),
-              GetPage(name: '/settings', page: ()=> SettingsView(), binding: SettingsBindings()),
-            ],
-            initialRoute: '/splash',
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-          );
-        }
-
-        return CircularProgressIndicator();
-      },
+    return GetMaterialApp(
+      title: 'Grocery App',
+      getPages: [
+        GetPage(name: '/splash', page: ()=> SplashView(), binding: SplashBindings()),
+        GetPage(name: '/auth', page: ()=> AuthView(), binding: AuthBinding()),
+        GetPage(name: '/home', page: ()=> HomeView(), binding: HomeBindings()),
+        GetPage(name: '/cart', page: ()=> HomeView()),
+        GetPage(name: '/orders', page: ()=> HomeView()),
+        GetPage(name: '/settings', page: ()=> SettingsView(), binding: SettingsBindings()),
+      ],
+      initialRoute: '/splash',
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
     );
   }
 }

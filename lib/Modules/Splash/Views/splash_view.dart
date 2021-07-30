@@ -9,29 +9,16 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller = Get.find<SplashController>();
-    Controller.checkLoggedInStatus();
+    final controller = Get.find<SplashController>();
+    controller.checkLoggedInStatus();
     return Container(
-      width: Get.width,
       height: Get.height,
-      color: Color(0xfff6f6f6),
-      padding: const EdgeInsets.only(top: 187, bottom: 208, ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:[
-          Container(
-            width: 300,
-            height: 245,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(92),
-            ),
-            child: Image(
-              image: AssetImage('assets/splash.jpeg'),
-            ),
-          ),
-        ],
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Color(0xfff6f6f6)
+      ),
+      child: Center(
+        child: Image.asset('assets/splash.jpeg'),
       ),
     );
   }

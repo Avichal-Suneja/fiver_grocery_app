@@ -4,8 +4,8 @@ import 'package:grocery_app/Services/AuthService.dart';
 import 'package:grocery_app/Services/DatabaseService.dart';
 
 class AuthController extends GetxController{
-  final _auth = Get.find<AuthService>();
-  final _db = Get.find<DatabaseService>();
+  final _auth = Get.put(AuthService());
+  final _db = Get.put(DatabaseService());
 
   TextEditingController nameController = new TextEditingController();
   TextEditingController phoneController = new TextEditingController();

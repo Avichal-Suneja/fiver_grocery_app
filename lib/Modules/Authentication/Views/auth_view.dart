@@ -13,8 +13,8 @@ class AuthView extends StatelessWidget {
 
 Widget showSignIn(){
   return Container(
-    width: Get.width,
-    height: Get.height,
+    width: 360,
+    height: 640,
     color: Color(0xfff6f6f6),
     child: Stack(
       children:[

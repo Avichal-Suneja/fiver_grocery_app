@@ -8,11 +8,5 @@ class SplashController extends GetxController{
     await Future.delayed(Duration(seconds: 2), (){
       _auth.currentUser!=null? Get.offAllNamed('/home') : Get.offAllNamed('/auth');
     });
-
-    @override
-    void onInit() async {
-      await checkLoggedInStatus();
-      super.onInit();
-    }
   }
 }
