@@ -13,14 +13,13 @@ class AuthService {
   /// [Login with email and password]
   Future<String> signInWithEmail(String email, String pass,
       [bool admin = false]) async {
-    assert(email.isNotEmpty && pass.isNotEmpty);
     print('$email, $pass');
-    String msg = 'login successful';
+    String msg = 'login not Successful';
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: pass);
+      UserCredential user = await auth.signInWithEmailAndPassword(email: email, password: pass);
+      msg = user.user!.uid;
     } on FirebaseAuthException catch (e) {
       log('$e');
-      Get.rawSnackbar(title: 'Something Went Wrong!', message: '${e.code}');
     }
     return msg;
   }
@@ -29,9 +28,10 @@ class AuthService {
       [bool admin = false]) async {
     assert(email.isNotEmpty && pass.isNotEmpty);
     print('$email, $pass');
-    String msg = 'login successful';
+    String msg = 'login not Successful';
     try {
-      await auth.createUserWithEmailAndPassword(email: email, password: pass);
+      UserCredential user = await auth.createUserWithEmailAndPassword(email: email, password: pass);
+      msg = user.user!.uid;
     } on FirebaseAuthException catch (e) {
       log('$e');
       Get.rawSnackbar(title: 'Something Went Wrong!', message: '${e.code}');

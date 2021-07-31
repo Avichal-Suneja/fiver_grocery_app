@@ -5,8 +5,8 @@ class SplashController extends GetxController{
   final _auth = Get.find<AuthService>();
 
   checkLoggedInStatus() async {
-    await Future.delayed(Duration(seconds: 2), (){
-      _auth.currentUser!=null? Get.offAllNamed('/home') : Get.offAllNamed('/auth');
+    await Future.delayed(Duration(seconds: 2), () async {
+      _auth.currentUser?.uid!=null? Get.offAllNamed('/home') : Get.offAllNamed('/auth');
     });
   }
 }

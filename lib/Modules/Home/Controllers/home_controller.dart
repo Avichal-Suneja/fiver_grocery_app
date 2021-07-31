@@ -7,7 +7,7 @@ import 'package:grocery_app/Services/DatabaseService.dart';
 
 class HomeController extends GetxController{
   RxList<Product> products = <Product>[].obs;
-  List<String> categories = [];
+  List<dynamic> categories = [];
   Rx<Cart> cart = new Cart().obs;
   String phoneNumber = '';
 
@@ -47,13 +47,21 @@ class HomeController extends GetxController{
     Get.rawSnackbar(message: 'Order Placed Successfully!');
   }
 
+  logOut() async {
+    await _auth.logout();
+    Get.offAllNamed('/auth');
+  }
+
   @override
   void onInit() async {
+    var data;
     products.bindStream(_db.getStream('products').map((list) => list.docs
         .map((doc) => Product.fromJson(doc.data() as Map))
         .toList()));
-    categories = await _db.getData('categories')['list'];
-    phoneNumber = await _db.getData('users/${_auth.currentUser!.uid}')['Phone'];
+    data = await _db.getData('categories/101');
+    categories = data['List'];
+    data = await _db.getData('users/${_auth.currentUser!.uid}');
+    phoneNumber = data['Phone'];
     super.onInit();
   }
 }

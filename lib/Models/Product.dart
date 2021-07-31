@@ -1,7 +1,7 @@
 class Product {
   int pid;
   String name;
-  Map<String, double> price;
+  Map<String, dynamic> price;
   String category;
   String image;
 
@@ -16,7 +16,7 @@ class Product {
     return Product(
       pid: json['pid'],
       name: json['name'],
-      price: json['price'],
+      price: Map<String, dynamic>.from(json['price']),
       category: json['category'],
       image: json['image']
     );
