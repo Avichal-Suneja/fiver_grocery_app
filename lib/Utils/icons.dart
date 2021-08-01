@@ -19,4 +19,5 @@ class MyFlutterApp {
   static const IconData location = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logout__1_ = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData order_list = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData cart_plus = IconData(0xf217, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
