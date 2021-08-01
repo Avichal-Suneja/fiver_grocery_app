@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/Modules/Home/Controllers/home_controller.dart';
@@ -75,14 +76,42 @@ class CartView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: ElevatedButton.icon(onPressed: (){},
-                                        icon: Icon(MyFlutterApp.cart),
-                                        label: Text('Add to Cart'),
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 8,
-                                            primary: Color(0xff1bc300)
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(28.0,0,0,40.0),
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                                height: 28,
+                                                width: 28,
+                                              child: ElevatedButton(onPressed: (){},
+                                                child: Icon(Icons.remove),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 2,
+                                                    primary: Color(0xff1bc300),
+                                                  padding: EdgeInsets.all(2)
+                                                ),
+                                              ),
+                                            ),
+                                            Text(' 0 ', style: TextStyle(
+                                              fontSize: 28,
+                                              decoration: TextDecoration.underline,
+                                              )
+                                            ),
+                                            SizedBox(
+                                              height: 28,
+                                              width: 28,
+                                              child: ElevatedButton(onPressed: (){},
+                                                child: Icon(Icons.add),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 2,
+                                                    primary: Color(0xff1bc300),
+                                                    padding: EdgeInsets.all(2)
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
