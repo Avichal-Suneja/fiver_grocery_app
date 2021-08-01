@@ -115,22 +115,24 @@ Widget showSignIn(AuthController controller) {
                 child: SizedBox(
                   height: 46,
                   width: 147,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if(_formKey.currentState!.validate()){
-                        await controller.signIn();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Color(0xffe5e5e5),
-                        shadowColor: Colors.black12,
-                        elevation: 5),
-                    child: Text(
-                      'Sign In',
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: Color(0xff039f00),
-                        fontFamily: 'PTSans',
+                  child: Card(
+                    elevation: 16,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if(_formKey.currentState!.validate()){
+                          await controller.signIn();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Color(0xffe5e5e5),
+                          ),
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(
+                          fontSize: 28,
+                          color: Color(0xff039f00),
+                          fontFamily: 'PTSans',
+                        ),
                       ),
                     ),
                   ),
