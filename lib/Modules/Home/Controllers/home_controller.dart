@@ -9,6 +9,7 @@ class HomeController extends GetxController{
   RxList<Product> products = <Product>[].obs;
   List<dynamic> categories = [];
   Rx<Cart> cart = new Cart().obs;
+  RxInt navIndex = 0.obs;
   String phoneNumber = '';
 
   final _db = Get.find<DatabaseService>();

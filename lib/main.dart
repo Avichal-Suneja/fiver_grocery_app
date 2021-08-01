@@ -11,6 +11,8 @@ import 'package:grocery_app/Modules/Splash/Bindings/splash_binding.dart';
 import 'package:grocery_app/Modules/Splash/Views/splash_view.dart';
 import 'package:grocery_app/Utils/appTheme.dart';
 import 'Modules/Authentication/Views/auth_view.dart';
+import 'Modules/Home/Views/cart_view.dart';
+import 'Modules/Home/Views/orders_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +30,9 @@ class MainApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/splash', page: ()=> SplashView(), binding: SplashBindings()),
         GetPage(name: '/auth', page: ()=> AuthView(), binding: AuthBinding()),
-        GetPage(name: '/home', page: ()=> HomeView(), binding: HomeBindings()),
-        GetPage(name: '/cart', page: ()=> HomeView()),
-        GetPage(name: '/orders', page: ()=> HomeView()),
+        GetPage(name: '/home', page: ()=> HomeView(), binding: HomeBindings(),),
+        GetPage(name: '/cart', page: ()=> CartView()),
+        GetPage(name: '/orders', page: ()=> OrdersView()),
         GetPage(name: '/settings', page: ()=> SettingsView(), binding: SettingsBindings()),
       ],
       initialRoute: '/splash',

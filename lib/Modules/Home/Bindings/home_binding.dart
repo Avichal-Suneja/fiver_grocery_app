@@ -8,6 +8,6 @@ class HomeBindings extends Bindings{
   void dependencies() {
     Get.put(AuthService());
     Get.put(DatabaseService());
-    Get.put(HomeController());
+    Get.put(HomeController(), permanent: true);
   }
 }
