@@ -17,6 +17,8 @@ class HomeController extends GetxController{
   Rx<Order> order = new Order().obs;
   RxInt navIndex = 0.obs;
   String phoneNumber = '';
+  String name = '';
+  String email = '';
   String city = '';
 
   RxList<dynamic> categorySelected = [].obs;
@@ -122,6 +124,8 @@ class HomeController extends GetxController{
     }
     data = await _db.getData('users/${_auth.currentUser!.uid}');
     phoneNumber = data['Phone'];
+    name = data['Name'];
+    email = data['Email'];
     try{
       data = await _db.getData('orders/${_auth.currentUser!.uid}');
       order.value.price = data['cart']['totalPrice'];
