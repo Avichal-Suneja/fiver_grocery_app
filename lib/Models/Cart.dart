@@ -10,7 +10,7 @@ class Cart{
     for(var item in cartItems){
       if(item['pid'] == product.pid){
         item['qty']+=1;
-        totalPrice+=product.price['default'];
+        totalPrice+=product.cityPrice;
         isPresent = true;
         print('This happened');
       }
@@ -21,7 +21,7 @@ class Cart{
         'pid' : product.pid,
         'qty' : 1
       });
-      totalPrice+=product.price['default'];
+      totalPrice+=product.cityPrice;
     }
     print(cartItems);
   }
@@ -30,7 +30,7 @@ class Cart{
     for(var item in cartItems){
       if(item['pid'] == product.pid){
         item['qty']-=1;
-        totalPrice-=product.price['default'];
+        totalPrice-=product.cityPrice;
       }
     }
     cartItems.removeWhere((item) => item['qty'] == 0);

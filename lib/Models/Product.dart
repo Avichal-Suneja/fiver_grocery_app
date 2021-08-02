@@ -2,15 +2,13 @@ class Product {
   int pid;
   String name;
   Map<String, dynamic> price;
+  dynamic cityPrice;
   String category;
   String image;
 
-  Product(
-      {required this.pid,
-      required this.name,
-      required this.price,
-      required this.category,
-      required this.image});
+  Product({required this.pid, required this.name, required this.price, required this.category, required this.image}){
+    cityPrice = price['default'];
+  }
 
   factory Product.fromJson(Map json){
     return Product(

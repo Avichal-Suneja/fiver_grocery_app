@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/Models/Cart.dart';
 import 'package:grocery_app/Models/Order.dart';
@@ -15,6 +17,7 @@ class HomeController extends GetxController{
   Rx<Order> order = new Order().obs;
   RxInt navIndex = 0.obs;
   String phoneNumber = '';
+  String city = '';
 
   RxList<dynamic> categorySelected = [].obs;
   RxBool address = false.obs;
@@ -87,9 +90,23 @@ class HomeController extends GetxController{
   @override
   void onInit() async {
     var data;
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    city = placemarks.first.locality!;
     products.bindStream(_db.getStream('products').map((list) => list.docs
         .map((doc) => Product.fromJson(doc.data() as Map))
         .toList()));
+
+    for(var product in products){
+      try{
+        product.cityPrice = product.price[city.toLowerCase()];
+        print("Yeah");
+        print(product.price[city.toLowerCase()]);
+      }catch(e){
+        print('Nope');
+      }
+    }
+
     searchedProducts.value = products;
     searchController.addListener(() {
       searchedProducts.value = products.where((product) {

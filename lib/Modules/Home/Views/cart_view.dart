@@ -75,7 +75,7 @@ class _CartViewState extends State<CartView> {
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         Text(
-                                          'Rs. ${controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']).price['default'].toString()}',
+                                          'Rs. ${controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']).cityPrice.toString()}',
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Color(0xff1bc300),

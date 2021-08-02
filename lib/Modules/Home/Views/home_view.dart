@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                     child: Text(
-                      'New Delhi, India',
+                      '${controller.city.capitalizeFirst}, India',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -197,7 +197,7 @@ class HomeView extends StatelessWidget {
                                         style: TextStyle(fontSize: 20),
                                       ),
                                       Text(
-                                        'Rs. ${controller.searchedProducts[index].price['default'].toString()}',
+                                        'Rs. ${controller.searchedProducts[index].cityPrice.toString()}',
                                         style: TextStyle(
                                           fontSize: 20,
                                           color: Color(0xff1bc300),
