@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Modules/Home/Controllers/home_controller.dart';
 import 'package:grocery_app/Utils/icons.dart';
@@ -10,9 +11,94 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
     return Scaffold(
-      body: Center(
-        child: Text('Profile View')
-      ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24.0,16.0,0,24.0),
+                child: Row(
+                  children: [
+                    Text('My ', style: TextStyle(
+                        fontSize: 32,
+                        color: Color(0xfffee500),
+                        letterSpacing: 1.5
+                    ),),
+                    Text('Profile', style: TextStyle(
+                        fontSize: 32,
+                        color: Color(0xff1bc300),
+                        letterSpacing: 1.5
+                    ),)
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: Get.height*0.4,
+                width: Get.width*0.9,
+                child: Card(
+                  color: Color(0xffe5e5e5),
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24.0,24.0,0,0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 24,),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Name: ${controller.name}',
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Color(0xff1bc300)
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24,),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Phone Number: ${controller.phoneNumber}',
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Color(0xff1bc300)
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24,),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Email: ${controller.email}',
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Color(0xff1bc300)
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0,24.0,0,0),
+                            child: ElevatedButton.icon(
+                              onPressed: (){controller.logOut();},
+                              icon: Icon(MyFlutterApp.logout__1_),
+                              label: Text('Logout'),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 4,
+                                primary: Color(0xff1bc300),
+
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         bottomNavigationBar:
         Padding(
           padding: const EdgeInsets.all(8.0),
