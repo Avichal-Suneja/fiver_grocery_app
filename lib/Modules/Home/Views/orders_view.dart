@@ -9,8 +9,9 @@ class OrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
-    return Scaffold(
-      body: SafeArea(
+    return Obx(()=>Scaffold(
+      body: controller.order.value.price == 0?
+      Center(child: Text('You have no orders', style: TextStyle(fontSize: 24))): SafeArea(
         child: Column(
           children: [
             Padding(
@@ -43,7 +44,7 @@ class OrdersView extends StatelessWidget {
                                     height: 150,
                                     width: Get.width * 0.9,
                                     child: Card(
-                                    color: Color(0xff1bc300),
+                                      color: Color(0xff1bc300).withOpacity(0.7),
                                     elevation: 8,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10)
@@ -58,10 +59,17 @@ class OrdersView extends StatelessWidget {
                                               style: TextStyle(fontSize: 20, ),
                                             ),
                                             Text(
-                                              'Price: Rs. ${controller.products[index].price['default'].toString()}',
+                                              'Total Price: Rs. ${controller.order.value.price}',
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 color: Color(0xfffee500),
+                                              ),
+                                            ),
+                                            Text(
+                                              controller.order.value.isCompleted?'Order Complete':'Order Pending',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -95,7 +103,7 @@ class OrdersView extends StatelessWidget {
                     break;
 
                   case 2:
-                    Get.offAllNamed('/settings');
+                    Get.offAllNamed('/profile');
                     break;
 
                   case 3:
@@ -142,6 +150,6 @@ class OrdersView extends StatelessWidget {
             ),
           ),
         )
-    );
+    ));
   }
 }

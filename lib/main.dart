@@ -5,14 +5,13 @@ import 'package:get/get.dart';
 import 'package:grocery_app/Modules/Authentication/Bindings/auth_binding.dart';
 import 'package:grocery_app/Modules/Home/Bindings/home_binding.dart';
 import 'package:grocery_app/Modules/Home/Views/home_view.dart';
-import 'package:grocery_app/Modules/Settings/Bindings/settings_binding.dart';
-import 'package:grocery_app/Modules/Settings/Views/settings_view.dart';
 import 'package:grocery_app/Modules/Splash/Bindings/splash_binding.dart';
 import 'package:grocery_app/Modules/Splash/Views/splash_view.dart';
 import 'package:grocery_app/Utils/appTheme.dart';
 import 'Modules/Authentication/Views/auth_view.dart';
 import 'Modules/Home/Views/cart_view.dart';
 import 'Modules/Home/Views/orders_view.dart';
+import 'Modules/Home/Views/profile_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +32,7 @@ class MainApp extends StatelessWidget {
         GetPage(name: '/home', page: ()=> HomeView(), binding: HomeBindings(),),
         GetPage(name: '/cart', page: ()=> CartView()),
         GetPage(name: '/orders', page: ()=> OrdersView()),
-        GetPage(name: '/settings', page: ()=> SettingsView(), binding: SettingsBindings()),
+        GetPage(name: '/profile', page: ()=> ProfileView()),
       ],
       initialRoute: '/splash',
       debugShowCheckedModeBanner: false,

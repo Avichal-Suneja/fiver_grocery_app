@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/Modules/Home/Controllers/home_controller.dart';
 import 'package:grocery_app/Utils/icons.dart';
-class CartView extends StatelessWidget {
+class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
 
+  @override
+  _CartViewState createState() => _CartViewState();
+}
+
+class _CartViewState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
     return Obx(()=>Scaffold(
-      body: SafeArea(
+      body: controller.cart.value.cartItems.length==0? Center(child: Text('Your Cart is Empty', style: TextStyle(fontSize: 24))):
+      controller.address.value? showAddressScreen(controller):
+      SafeArea(
         child: Column(
           children: [
             Padding(
@@ -33,7 +40,7 @@ class CartView extends StatelessWidget {
             Expanded(
               child: Center(
                 child: ListView.builder(
-                  itemCount: controller.products.length,
+                  itemCount: controller.cart.value.cartItems.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -51,24 +58,24 @@ class CartView extends StatelessWidget {
                               child: Padding(
                                 padding: EdgeInsets.all(8),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Image(
                                       height: 100,
                                       width: 100,
                                       image: NetworkImage(
-                                          controller.products[index].image),
+                                          controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']).image),
                                     ),
                                     SizedBox(width: 16),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          controller.products[index].name,
+                                          controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']).name,
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         Text(
-                                          'Rs. ${controller.products[index].price['default'].toString()}',
+                                          'Rs. ${controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']).price['default'].toString()}',
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Color(0xff1bc300),
@@ -85,7 +92,10 @@ class CartView extends StatelessWidget {
                                             SizedBox(
                                                 height: 28,
                                                 width: 28,
-                                              child: ElevatedButton(onPressed: (){},
+                                              child: ElevatedButton(onPressed: (){
+                                                controller.cart.value.removeFromCart(controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']));
+                                                setState(() {});
+                                              },
                                                 child: Icon(Icons.remove),
                                                 style: ElevatedButton.styleFrom(
                                                     elevation: 2,
@@ -94,15 +104,18 @@ class CartView extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            Text(' 0 ', style: TextStyle(
+                                            Text(' ${controller.cart.value.cartItems[index]['qty'].toString()} ',
+                                                style: TextStyle(
                                               fontSize: 28,
-                                              decoration: TextDecoration.underline,
                                               )
                                             ),
                                             SizedBox(
                                               height: 28,
                                               width: 28,
-                                              child: ElevatedButton(onPressed: (){},
+                                              child: ElevatedButton(onPressed: (){
+                                                controller.cart.value.addToCart(controller.getProductFromPid(controller.cart.value.cartItems[index]['pid']));
+                                                setState(() {});
+                                              },
                                                 child: Icon(Icons.add),
                                                 style: ElevatedButton.styleFrom(
                                                     elevation: 2,
@@ -128,8 +141,20 @@ class CartView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,0,24.0,16.0),
               child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text('Total Price: ${controller.cart.value.totalPrice.toString()}',
+                style: TextStyle(
+                  fontSize: 24
+                ))
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,0,24.0,16.0),
+              child: Align(
                 alignment: Alignment.bottomRight,
-                child: ElevatedButton(onPressed: (){},
+                child: ElevatedButton(onPressed: (){
+                  controller.showAddress();
+                },
                   child: Text('Check-Out'),
                   style: ElevatedButton.styleFrom(
                       elevation: 8,
@@ -156,7 +181,7 @@ class CartView extends StatelessWidget {
                   break;
 
                 case 2:
-                  Get.offAllNamed('/settings');
+                  Get.offAllNamed('/profile');
                   break;
 
                 case 3:
@@ -204,4 +229,192 @@ class CartView extends StatelessWidget {
         ),
       ),),);
   }
+}
+
+Widget showAddressScreen(HomeController controller){
+  final _formKey = GlobalKey<FormState>();
+  return Form(
+    key: _formKey,
+    child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
+              child: Text(
+                'Enter your Address',
+                style: TextStyle(
+                  fontSize: 48,
+                  color: Color(0xff039f00),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PTSans',
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28.0, 0, 0, 0),
+            child: Text(
+              'State',
+              style: TextStyle(
+                color: Color(0xff039f00),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'PTSans',
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                color: Color(0xffe5e5e5),
+                width: Get.width * 0.9,
+                child: TextFormField(
+                  validator: (text) => text!.length<3? 'State should be at least 3 characters' : null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.green, width: 3.0)),
+                  ),
+                  controller: controller.stateController,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28.0, 0, 0, 0),
+            child: Text(
+              'City',
+              style: TextStyle(
+                color: Color(0xff039f00),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'PTSans',
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                color: Color(0xffe5e5e5),
+                width: Get.width * 0.9,
+                child: TextFormField(
+                  validator: (text) => text!.length<3? 'City should atleast be 3 characters' : null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.green, width: 3.0)),
+                  ),
+                  controller: controller.cityController,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28.0, 0, 0, 0),
+            child: Text(
+              'Pin code',
+              style: TextStyle(
+                color: Color(0xff039f00),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'PTSans',
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                color: Color(0xffe5e5e5),
+                width: Get.width * 0.9,
+                child: TextFormField(
+                  validator: (text) => text!.length<6? 'Pin code cannot be smaller than 6 characters' : null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.green, width: 3.0)),
+                  ),
+                  controller: controller.pincodeController,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28.0, 0, 0, 0),
+            child: Text(
+              'Street',
+              style: TextStyle(
+                color: Color(0xff039f00),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'PTSans',
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                color: Color(0xffe5e5e5),
+                width: Get.width * 0.9,
+                child: TextFormField(
+                  validator: (text) => text!.isEmpty? 'Street cannot be Empty' : null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.green, width: 3.0)),
+                  ),
+                  controller: controller.streetController,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                height: 46,
+                width: 250,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if(_formKey.currentState!.validate()){
+                      await controller.placeOrder();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Color(0xffe5e5e5),
+                      shadowColor: Colors.black12,
+                      elevation: 5),
+                  child: Text(
+                    'Place Order',
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Color(0xff039f00),
+                      fontFamily: 'PTSans',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ]),
+  );
 }

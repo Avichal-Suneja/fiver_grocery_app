@@ -69,6 +69,7 @@ class HomeView extends StatelessWidget {
                     width: Get.width * 0.9,
                     height: Get.height * 0.07,
                     child: TextFormField(
+                      controller: controller.searchController,
                       decoration: InputDecoration(
                         prefixIcon: Padding(
                           padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
@@ -111,22 +112,41 @@ class HomeView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                        child: Card(
-                          color: Colors.grey[300],
-                            elevation: 8,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
+                        child: GestureDetector(
+                          onTap: (){
+                            if(controller.categorySelected[index]==false){
+                              controller.applyFilterCategory(controller.categories[index]);
+                              controller.categorySelected[index] = true;
+                              for(int i=0; i<controller.categorySelected.length; i++){
+                                if(i!=index){
+                                  controller.categorySelected[i] = false;
+                                }
+                              }
+                            }else{
+                              controller.removeFilter();
+                              controller.categorySelected[index] = false;
+                            }
+                          },
+                          child: Card(
+                            color: controller.categorySelected[index]? Colors.yellowAccent:Colors.grey[300],
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Row(
+                              children: [
+                                Image(
+                                  image: NetworkImage(controller.categoriesImages[index]),
+
+                                ),
+                                SizedBox(width: 6),
+                                Text(controller.categories[index])
+                              ],
                             ),
-                            child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              Icon(MyFlutterApp.broccoli, color: Colors.green,),
-                              SizedBox(width: 6),
-                              Text(controller.categories[index])
-                            ],
-                          ),
-                        )),
+                          )),
+                        ),
                       );
                     },
                   ),
@@ -143,7 +163,7 @@ class HomeView extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: ListView.builder(
-                    itemCount: controller.products.length,
+                    itemCount: controller.searchedProducts.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return Padding(
@@ -151,7 +171,7 @@ class HomeView extends StatelessWidget {
                         child: Center(
                           child: SizedBox(
                             height: 150,
-                            width: Get.width * 0.9,
+                            width: Get.width*0.9,
                             child: Card(
                                 color: Colors.grey[300],
                                 elevation: 8,
@@ -161,24 +181,23 @@ class HomeView extends StatelessWidget {
                                 child: Padding(
                               padding: EdgeInsets.all(8),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Image(
                                     height: 100,
                                     width: 100,
                                     image: NetworkImage(
-                                        controller.products[index].image),
+                                        controller.searchedProducts[index].image),
                                   ),
-                                  SizedBox(width: 16),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        controller.products[index].name,
+                                        controller.searchedProducts[index].name,
                                         style: TextStyle(fontSize: 20),
                                       ),
                                       Text(
-                                        'Rs. ${controller.products[index].price['default'].toString()}',
+                                        'Rs. ${controller.searchedProducts[index].price['default'].toString()}',
                                         style: TextStyle(
                                           fontSize: 20,
                                           color: Color(0xff1bc300),
@@ -187,15 +206,17 @@ class HomeView extends StatelessWidget {
                                     ],
                                   ),
                                   Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: ElevatedButton.icon(onPressed: (){},
-                                        icon: Icon(MyFlutterApp.cart),
-                                        label: Text('Add to Cart'),
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 8,
-                                      primary: Color(0xff1bc300)
-                                    ),
-                                    ),
+                                    alignment: Alignment.bottomRight,
+                                    child: ElevatedButton.icon(onPressed: (){
+                                        controller.cart.value.addToCart(controller.searchedProducts[index]);
+                                      },
+                                          icon: Icon(MyFlutterApp.cart),
+                                          label: Text('Add to Cart'),
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 8,
+                                        primary: Color(0xff1bc300)
+                                      ),
+                                      ),
                                   ),
                                 ],
                               ),
@@ -228,7 +249,7 @@ class HomeView extends StatelessWidget {
                     break;
 
                   case 2:
-                    Get.offAllNamed('/settings');
+                    Get.offAllNamed('/profile');
                     break;
 
                   case 3:

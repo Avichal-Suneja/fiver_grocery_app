@@ -7,39 +7,53 @@ class Cart{
 
   void addToCart(Product product){
     bool isPresent = false;
-    cartItems.map((item){
+    for(var item in cartItems){
       if(item['pid'] == product.pid){
         item['qty']+=1;
-        totalPrice+=product.price;
+        totalPrice+=product.price['default'];
         isPresent = true;
+        print('This happened');
       }
-    });
+    }
 
     if(!isPresent){
       cartItems.add({
         'pid' : product.pid,
         'qty' : 1
       });
-      totalPrice+=product.price;
+      totalPrice+=product.price['default'];
     }
+    print(cartItems);
   }
 
   void removeFromCart(Product product){
-    cartItems.map((item){
+    for(var item in cartItems){
       if(item['pid'] == product.pid){
         item['qty']-=1;
-        totalPrice-=product.price;
-        if(item['qty'] == 0)
-          cartItems.remove(item);
+        totalPrice-=product.price['default'];
       }
-    });
+    }
+    cartItems.removeWhere((item) => item['qty'] == 0);
+    print(cartItems);
+  }
+
+  void clearCart(){
+    cartItems = [];
+    totalPrice = 0;
   }
 
   Map<String, dynamic> mappedCart(){
     Map<String, dynamic> map = {};
-    cartItems.map((item) => map[item['pid']] = item);
+    for(var item in cartItems){
+      map[item['pid'].toString()] = item;
+    }
     map['totalPrice'] = totalPrice;
     return map;
+  }
+
+  factory Cart.fromJson(json){
+    Cart cart = new Cart();
+    return cart;
   }
   
 }
